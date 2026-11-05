@@ -3,514 +3,733 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111331">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080612">
 <title>AhorraGo 6.5 Galaxia</title>
+<link rel="manifest" href="./manifest.json">
+
 <style>
 *{box-sizing:border-box}
 body{
  margin:0;
+ background:radial-gradient(ellipse at top,#21153f,#080612 60%,#030207);
+ background-attachment:fixed;
  color:white;
- font:16px system-ui,Arial,sans-serif;
- background:radial-gradient(ellipse at top,#35306b,#111331 45%,#080a20) fixed;
+ font:16px system-ui,Arial,sans-serif
 }
-header{text-align:center;padding:28px 12px}
-h1{font-size:2rem;margin:10px 0}
-header p,.muted{color:#c8c3e3}
-main{max-width:780px;margin:auto;padding:12px}
-.card{
- background:#1b1d45f2;
- border:1px solid #514b88;
- border-radius:22px;
- padding:18px;
- margin-bottom:17px;
+header{text-align:center;padding:48px 15px 30px}
+.logo{font-size:65px}
+h1{font-size:2.5rem;margin:8px 0}
+h1 span{color:#55ccef}
+.subtitle{color:#d9c9f1;font-size:1.15rem}
+.tag{
+ display:inline-block;
+ background:#19192e;
+ padding:10px 17px;
+ border-radius:30px
 }
-h2{font-size:1.2rem;margin:0 0 15px}
-label{display:block;margin:12px 0 6px}
+main{max-width:800px;margin:auto;padding:15px}
+section{
+ background:#0e0d21;
+ border:1px solid #6c628e;
+ border-radius:28px;
+ padding:22px;
+ margin-bottom:24px
+}
+h2{font-size:1.5rem;margin:5px 0 22px}
+h3{margin:20px 0 10px}
+label{display:block;margin:14px 0 7px}
 input,select{
  width:100%;
- background:#0d102e;
- color:white;
- border:1px solid #6d68a1;
- border-radius:12px;
- padding:12px;
- font:inherit;
-}
-button{
- border:0;
- border-radius:12px;
- background:linear-gradient(110deg,#8458e9,#15b8d6);
- color:white;
- font-weight:bold;
- padding:12px 16px;
- cursor:pointer;
-}
-button:disabled{opacity:.5}
-.secondary{background:#343b68}
-.danger{background:#803852}
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
- gap:10px;
-}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.row input{flex:1;min-width:120px}
-.stat{
- background:#111534;
  padding:15px;
  border-radius:15px;
+ border:1px solid #625c85;
+ background:#090819;
+ color:white;
+ font-size:16px;
+ min-width:0
 }
-.stat strong{display:block;font-size:1.4rem;margin-top:7px}
-.item{border-top:1px solid #494b75;padding:12px 0}
-.item:first-child{border-top:0}
-.small{font-size:.83rem}
-.good{color:#80efd0}
-.warn{color:#ffd58c}
-.pill{
- display:inline-block;
- background:#323769;
- border-radius:25px;
- padding:6px 12px;
- font-size:.85rem;
+input::placeholder{color:#8f8ba3}
+button{
+ background:linear-gradient(110deg,#8658df,#21b4d7);
+ color:white;
+ border:0;
+ border-radius:15px;
+ padding:14px 18px;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer
 }
-table{border-collapse:collapse;width:100%;font-size:.85rem}
+button.secondary{background:#25213e}
+button.danger{background:#7d294a}
+.row{display:flex;gap:10px;align-items:center}
+.row>*{min-width:0}
+.row input{flex:1}
+.full{width:100%;margin-top:12px}
+.cards{display:grid;gap:12px;margin-top:18px}
+.stat{background:#080718;padding:20px;border-radius:22px}
+.value{font-size:2rem;font-weight:750;margin-top:6px}
+.green,.price{color:#80e6c6}
+.price{font-weight:bold}
+.small{color:#b5acc9;font-size:13px}
+.item{
+ padding:14px;
+ background:#151229;
+ border-radius:16px;
+ margin:10px 0
+}
+.item-top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px
+}
+.item-actions{display:flex;gap:7px;flex-wrap:wrap}
+.item-actions button{padding:9px 12px}
+.notice{
+ background:#1b1731;
+ padding:13px;
+ border-radius:14px;
+ color:#e0d5f4;
+ font-size:14px;
+ line-height:1.5
+}
+table{width:100%;border-collapse:collapse}
 td,th{
- padding:9px 5px;
- border-bottom:1px solid #454873;
  text-align:left;
+ padding:10px 5px;
+ border-bottom:1px solid #37314f;
+ font-size:14px
 }
-.scroll{overflow-x:auto}
-a{color:#8be9ff}
-footer{text-align:center;color:#bdb6d8;padding:25px}
+.table-wrap{overflow-x:auto}
+footer{text-align:center;color:#b5acc9;padding:30px}
+@media(min-width:600px){
+ .cards{grid-template-columns:repeat(3,1fr)}
+}
 </style>
 </head>
 
 <body>
 <header>
- <div style="font-size:3rem">🛒🌌</div>
- <h1>AhorraGo <span style="color:#80e5ff">6.5</span></h1>
- <p>✨ Tu ahorro, en otra galaxia ✨</p>
- <span class="pill">Precios con fuente y fecha</span>
+ <div class="logo">🛒🌌</div>
+ <h1>AhorraGo <span>6.5</span></h1>
+ <p class="subtitle">✨ Tu ahorro, en otra galaxia ✨</p>
+ <div class="tag">Precios con fuente y fecha</div>
 </header>
 
 <main>
 
-<section class="card">
+<section>
  <h2>💰 Mi presupuesto</h2>
- <label>Presupuesto de compra (€)</label>
+ <label for="budget">Presupuesto de compra (€)</label>
  <div class="row">
-  <input id="budget" type="number" min="0" step="0.01">
+  <input id="budget" type="number" min="0" step=".01" value="255">
   <button onclick="saveBudget()">Guardar</button>
  </div>
- <div class="grid" style="margin-top:12px">
-  <div class="stat">Presupuesto<strong id="budgetView">0 €</strong></div>
-  <div class="stat">Coste estimado<strong id="totalView">0 €</strong></div>
-  <div class="stat">Disponible<strong id="remainingView">0 €</strong></div>
- </div>
- <p class="muted small">Los importes son estimaciones basadas en los precios registrados.</p>
-</section>
-
-<section class="card">
- <h2>📝 Mi lista de la compra</h2>
- <div class="grid">
-  <div>
-   <label>Producto</label>
-   <input id="itemName" placeholder="Ej. leche">
+ <div class="cards">
+  <div class="stat">
+   Presupuesto
+   <div class="value" id="budgetView">255,00 €</div>
   </div>
-  <div>
-   <label>Cantidad</label>
-   <input id="itemQty" type="number" min="0.01" step="0.01" value="1">
+  <div class="stat">
+   Coste estimado
+   <div class="value" id="costView">0,00 €</div>
+  </div>
+  <div class="stat">
+   Disponible
+   <div class="value green" id="leftView">255,00 €</div>
   </div>
  </div>
- <button onclick="addItem()" style="margin-top:12px">Añadir producto</button>
- <div id="itemsView"></div>
+ <p class="small">Los importes son estimaciones basadas en los precios registrados.</p>
 </section>
 
-<section class="card">
- <h2>🏪 Comparar supermercados</h2>
- <label>Selecciona un producto</label>
- <select id="compareSelect" onchange="renderComparison()"></select>
- <div id="compareView"></div>
+<section>
+ <h2>🛒 Mi lista de la compra</h2>
+ <label for="product">Producto</label>
+ <input id="product" placeholder="Ejemplo: leche">
+
+ <label for="quantity">Cantidad</label>
+ <input id="quantity" type="number" min="1" step="1" value="1">
+
+ <button class="full" onclick="addItem()">Añadir a mi lista</button>
+ <div id="shoppingList"></div>
 </section>
 
-<section class="card">
- <h2>🏷️ Añadir precios</h2>
- <div class="grid">
-  <div>
-   <label>Producto</label>
-   <input id="priceProduct" placeholder="Ej. arroz 1 kg">
-  </div>
-  <div>
-   <label>Supermercado</label>
-   <input id="priceStore" placeholder="Ej. HiperDino">
-  </div>
-  <div>
-   <label>Precio (€)</label>
-   <input id="priceAmount" type="number" min="0" step="0.01">
-  </div>
-  <div>
-   <label>Fuente o enlace</label>
-   <input id="priceSource" placeholder="Web, ticket...">
-  </div>
- </div>
- <button onclick="addPrice()" style="margin-top:12px">Guardar precio</button>
+<section>
+ <h2>🔎 Comparar supermercados</h2>
+ <label for="searchProduct">Buscar producto</label>
+ <input id="searchProduct" placeholder="Ejemplo: arroz"
+        oninput="renderCompare()">
+
+ <label for="storeFilter">Supermercado</label>
+ <select id="storeFilter" onchange="renderCompare()">
+  <option value="">Todos</option>
+  <option>HiperDino</option>
+  <option>Mercadona</option>
+  <option>Lidl</option>
+  <option>SPAR</option>
+  <option>DIA</option>
+  <option>Carrefour</option>
+  <option>Alcampo</option>
+ </select>
+ <div id="compareResults"></div>
 </section>
 
-<section class="card">
+<section>
+ <h2>🏷️ Añadir precio comprobado</h2>
+
+ <label for="priceProduct">Producto</label>
+ <input id="priceProduct" placeholder="Ejemplo: leche entera 1 L">
+
+ <label for="priceStore">Supermercado</label>
+ <select id="priceStore">
+  <option>HiperDino</option>
+  <option>Mercadona</option>
+  <option>Lidl</option>
+  <option>SPAR</option>
+  <option>DIA</option>
+  <option>Carrefour</option>
+  <option>Alcampo</option>
+ </select>
+
+ <label for="priceValue">Precio (€)</label>
+ <input id="priceValue" type="number" min="0" step=".01"
+        placeholder="Ejemplo: 1.25">
+
+ <label for="priceSource">Fuente del precio</label>
+ <input id="priceSource" placeholder="Ejemplo: web oficial o ticket">
+
+ <button class="full" onclick="addPrice()">Guardar precio</button>
+ <p class="small">Introduce únicamente precios que hayas comprobado.</p>
+</section>
+
+<section>
  <h2>🔄 Actualización de precios</h2>
- <p class="muted">
-  Importa precios mediante un archivo CSV o una dirección pública compatible.
+ <p class="notice">
+ Esta versión permite importar archivos CSV.
+ La actualización automática diaria todavía requiere
+ conectar una fuente compatible y verificable.
  </p>
- <label>Dirección del CSV</label>
- <input id="csvUrl" placeholder="https://ejemplo.com/precios.csv">
- <div class="row" style="margin-top:10px">
-  <button class="secondary" onclick="saveUrl()">Guardar dirección</button>
-  <button id="updateBtn" onclick="updatePrices()">Actualizar ahora</button>
- </div>
- <label>Importar CSV desde el móvil</label>
- <input id="csvFile" type="file" accept=".csv,text/csv,text/plain">
- <p id="updateStatus" class="muted small">Sin actualización externa confirmada.</p>
- <p class="muted small">
-  Columnas necesarias: producto, supermercado, precio.
-  Opcionales: fecha, fuente.
- </p>
- <button class="secondary" onclick="exportPrices()">Exportar precios CSV</button>
+
+ <h3>Importar archivo CSV</h3>
+ <input id="csvFile" type="file" accept=".csv,text/csv">
+ <button class="full" onclick="importFile()">Importar archivo</button>
+
+ <h3>Importar desde una dirección CSV</h3>
+ <label for="csvUrl">Dirección del archivo CSV</label>
+ <input id="csvUrl" type="url"
+        placeholder="https://ejemplo.com/precios.csv">
+
+ <button class="full" onclick="saveUrl()">Guardar dirección</button>
+ <button class="full secondary" onclick="updatePrices()">
+  Comprobar CSV ahora
+ </button>
+
+ <p class="small" id="updateStatus">Sin importaciones recientes.</p>
+
+ <button class="full secondary" onclick="exportPrices()">
+  Exportar precios a CSV
+ </button>
 </section>
 
-<section class="card">
- <h2>📊 Precios guardados</h2>
- <p id="priceCount" class="muted"></p>
- <div class="scroll" id="pricesView"></div>
- <p class="muted small">
-  Los precios se guardan en este navegador.
-  No se sincronizan automáticamente con otros móviles.
+<section>
+ <h2>📋 Precios guardados</h2>
+ <p class="small">
+ Los precios se guardan en este navegador.
+ No se comparten automáticamente con otros móviles.
  </p>
+ <div id="savedPrices"></div>
 </section>
-
-<p id="message" aria-live="polite"></p>
 
 </main>
 
-<footer>AhorraGo 6.5 Galaxia · Tu ahorro, en otra galaxia ✨</footer>
+<footer>
+ AhorraGo 6.5 Galaxia 🛒🌌
+</footer>
 
 <script>
+"use strict";
+
 const KEY="ahorrago65";
+const STORES=[
+ "HiperDino","Mercadona","Lidl","SPAR",
+ "DIA","Carrefour","Alcampo"
+];
+
 const $=id=>document.getElementById(id);
 
-let data={
- budget:255,
- items:[],
- prices:[],
- url:"",
- lastUpdate:""
-};
+const norm=s=>String(s||"")
+ .normalize("NFD")
+ .replace(/[\u0300-\u036f]/g,"")
+ .trim().toLowerCase();
 
-try{
- const saved=JSON.parse(localStorage.getItem(KEY)||"null");
- if(saved&&typeof saved==="object"){
-  data={...data,...saved};
- }
-}catch(e){}
+const money=n=>Number(n||0).toLocaleString(
+ "es-ES",{style:"currency",currency:"EUR"}
+);
 
-if(!Array.isArray(data.items))data.items=[];
-if(!Array.isArray(data.prices))data.prices=[];
+const today=()=>new Date().toISOString().slice(0,10);
 
-function save(){
- localStorage.setItem(KEY,JSON.stringify(data));
+function initialData(){
+ return {budget:255,items:[],prices:[],csvUrl:""};
 }
 
-function euro(n){
- return Number(n||0).toLocaleString("es-ES",{
-  style:"currency",currency:"EUR"
+function load(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(KEY));
+  if(!saved||typeof saved!=="object")return initialData();
+  return {
+   budget:Number.isFinite(Number(saved.budget))
+    ?Number(saved.budget):255,
+   items:Array.isArray(saved.items)?saved.items:[],
+   prices:Array.isArray(saved.prices)?saved.prices:[],
+   csvUrl:String(saved.csvUrl||"")
+  };
+ }catch{
+  return initialData();
+ }
+}
+
+let data=load();
+
+function persist(){
+ try{
+  localStorage.setItem(KEY,JSON.stringify(data));
+ }catch{
+  alert("No se pudieron guardar los datos en este navegador.");
+ }
+}
+
+function el(tag,text,className){
+ const node=document.createElement(tag);
+ if(text!==undefined)node.textContent=String(text);
+ if(className)node.className=className;
+ return node;
+}
+
+function clear(node){
+ node.replaceChildren();
+}
+
+function saveBudget(){
+ const value=Number($("budget").value);
+ if(!Number.isFinite(value)||value<0){
+  alert("Introduce un presupuesto válido.");
+  return;
+ }
+ data.budget=value;
+ persist();
+ render();
+}
+
+function addItem(){
+ const product=$("product").value.trim();
+ const quantity=Number($("quantity").value);
+
+ if(!product||!Number.isInteger(quantity)||quantity<1){
+  alert("Escribe un producto y una cantidad válida.");
+  return;
+ }
+
+ data.items.push({
+  id:Date.now()+Math.random(),
+  product,
+  quantity
+ });
+
+ $("product").value="";
+ $("quantity").value="1";
+ persist();
+ render();
+}
+
+function removeItem(id){
+ data.items=data.items.filter(item=>item.id!==id);
+ persist();
+ render();
+}
+
+function offersFor(product){
+ return data.prices.filter(p=>
+  norm(p.product)===norm(product)
+ );
+}
+
+function bestOffer(product){
+ const offers=offersFor(product);
+ if(!offers.length)return null;
+ return offers.reduce((a,b)=>a.price<=b.price?a:b);
+}
+
+function upsert(price){
+ const product=String(price.product||"").trim();
+ const store=String(price.store||"").trim();
+ const value=Number(price.price);
+
+ if(!product||!store||!Number.isFinite(value)||value<0){
+  return false;
+ }
+
+ const record={
+  product,
+  store,
+  price:value,
+  date:String(price.date||today()),
+  source:String(price.source||"Sin fuente")
+ };
+
+ const index=data.prices.findIndex(p=>
+  norm(p.product)===norm(product)&&
+  norm(p.store)===norm(store)
+ );
+
+ if(index>=0)data.prices[index]=record;
+ else data.prices.push(record);
+ return true;
+}
+
+function addPrice(){
+ const product=$("priceProduct").value.trim();
+ const store=$("priceStore").value;
+ const price=Number($("priceValue").value);
+ const source=$("priceSource").value.trim();
+
+ if(!$("priceValue").value.trim()||
+    !product||
+    !Number.isFinite(price)||
+    price<0){
+  alert("Introduce un producto y un precio válido.");
+  return;
+ }
+
+ upsert({product,store,price,source,date:today()});
+ persist();
+
+ $("priceProduct").value="";
+ $("priceValue").value="";
+ $("priceSource").value="";
+ render();
+}
+
+function removePrice(product,store){
+ data.prices=data.prices.filter(p=>!(
+  norm(p.product)===norm(product)&&
+  norm(p.store)===norm(store)
+ ));
+ persist();
+ render();
+}
+
+function renderList(){
+ const root=$("shoppingList");
+ clear(root);
+
+ if(!data.items.length){
+  root.append(el("p","Tu lista está vacía.","small"));
+  return;
+ }
+
+ data.items.forEach(item=>{
+  const card=el("div",undefined,"item");
+  const top=el("div",undefined,"item-top");
+  const info=el("div");
+  info.append(el("strong",item.product));
+  info.append(el("div","Cantidad: "+item.quantity,"small"));
+
+  const best=bestOffer(item.product);
+  info.append(el(
+   "div",
+   best
+    ?"Estimación: "+money(best.price*item.quantity)+
+     " · "+best.store
+    :"Sin precio registrado",
+   best?"price":"small"
+  ));
+
+  const remove=el("button","Quitar","danger");
+  remove.onclick=()=>removeItem(item.id);
+
+  top.append(info,remove);
+  card.append(top);
+  root.append(card);
  });
 }
 
-function safe(s){
- return String(s??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",
-  '"':"&quot;","'":"&#39;"
- })[c]);
+function renderCompare(){
+ const root=$("compareResults");
+ clear(root);
+
+ const query=norm($("searchProduct").value);
+ const store=norm($("storeFilter").value);
+
+ const matches=data.prices.filter(p=>
+  (!query||norm(p.product).includes(query))&&
+  (!store||norm(p.store)===store)
+ ).sort((a,b)=>a.price-b.price);
+
+ if(!matches.length){
+  root.append(el(
+   "p",
+   "No hay precios registrados para esta búsqueda.",
+   "small"
+  ));
+  return;
+ }
+
+ matches.forEach(p=>{
+  const card=el("div",undefined,"item");
+  card.append(el("strong",p.product));
+  card.append(el("div",p.store+" · "+money(p.price),"price"));
+  card.append(el(
+   "div",
+   "Fecha: "+p.date+" · Fuente: "+p.source,
+   "small"
+  ));
+  root.append(card);
+ });
 }
 
-function norm(s){
- return String(s||"").trim().toLocaleLowerCase("es");
-}
+function renderSavedPrices(){
+ const root=$("savedPrices");
+ clear(root);
 
-function number(s){
- let x=String(s??"").trim().replace(/\s/g,"").replace(/€/g,"");
- if(x.includes(","))x=x.replace(/\./g,"").replace(",",".");
- return x===""?NaN:Number(x);
-}
+ if(!data.prices.length){
+  root.append(el("p","Todavía no hay precios guardados.","small"));
+  return;
+ }
 
-function message(text,error=false){
- $("message").textContent=text;
- $("message").style.color=error?"#ffb7c1":"#8cf3d1";
-}
+ const sorted=[...data.prices].sort((a,b)=>
+  a.product.localeCompare(b.product,"es")
+ );
 
-function offers(product){
- return data.prices
-  .filter(p=>norm(p.product)===norm(product))
-  .sort((a,b)=>a.price-b.price);
+ sorted.forEach(p=>{
+  const card=el("div",undefined,"item");
+  card.append(el("strong",p.product));
+  card.append(el("div",p.store+" · "+money(p.price),"price"));
+  card.append(el(
+   "div",
+   "Fecha: "+p.date+" · Fuente: "+p.source,
+   "small"
+  ));
+
+  const button=el("button","Eliminar","danger");
+  button.style.marginTop="10px";
+  button.onclick=()=>{
+   if(confirm("¿Eliminar este precio?")){
+    removePrice(p.product,p.store);
+   }
+  };
+  card.append(button);
+  root.append(card);
+ });
 }
 
 function render(){
  $("budget").value=data.budget;
+ $("budgetView").textContent=money(data.budget);
+
  let total=0;
+ let missing=0;
 
- $("itemsView").innerHTML=data.items.length
- ?data.items.map((item,i)=>{
-  let best=offers(item.product)[0];
-  if(best)total+=best.price*item.qty;
-  return `
-   <div class="item">
-    <strong>${safe(item.product)}</strong> × ${item.qty}
-    <p class="muted small">
-     ${best
-      ?safe(best.store)+" · "+euro(best.price)
-      :"Sin precio disponible"}
-    </p>
-    <button class="danger" onclick="removeItem(${i})">Quitar</button>
-   </div>`;
- }).join("")
- :'<p class="muted">Todavía no has añadido productos.</p>';
+ data.items.forEach(item=>{
+  const best=bestOffer(item.product);
+  if(best)total+=best.price*item.quantity;
+  else missing++;
+ });
 
- $("budgetView").textContent=euro(data.budget);
- $("totalView").textContent=euro(total);
- $("remainingView").textContent=euro(data.budget-total);
- $("remainingView").className=total>data.budget?"warn":"good";
+ $("costView").textContent=money(total);
+ $("leftView").textContent=money(data.budget-total);
 
- let names=[...new Set(data.prices.map(p=>p.product))];
- let selected=$("compareSelect").value;
+ renderList();
+ renderCompare();
+ renderSavedPrices();
 
- $("compareSelect").innerHTML=
-  '<option value="">Selecciona un producto</option>'+
-  names.map(n=>`<option value="${safe(n)}">${safe(n)}</option>`).join("");
-
- if(names.includes(selected))$("compareSelect").value=selected;
- renderComparison();
-
- $("priceCount").textContent=data.prices.length+" precios registrados";
-
- $("pricesView").innerHTML=data.prices.length
- ?`<table>
-   <tr><th>Producto</th><th>Tienda</th><th>Precio</th><th>Fecha</th><th></th></tr>
-   ${data.prices.map((p,i)=>`
-    <tr>
-     <td>${safe(p.product)}</td>
-     <td>${safe(p.store)}</td>
-     <td>${euro(p.price)}</td>
-     <td>${safe(p.date||"Sin fecha")}<div class="muted small">${safe(p.origin||"Manual")}</div></td>
-     <td><button class="danger" onclick="removePrice(${i})">×</button></td>
-    </tr>
-   `).join("")}
-  </table>`
- :'<p class="muted">No hay precios guardados.</p>';
-
- $("csvUrl").value=data.url||"";
- $("updateStatus").textContent=data.lastUpdate
-  ?"Última importación: "+data.lastUpdate
-  :"Sin actualización externa confirmada.";
-}
-
-function renderComparison(){
- let product=$("compareSelect").value;
- let list=offers(product);
- $("compareView").innerHTML=!product
-  ?'<p class="muted">Selecciona un producto.</p>'
-  :list.length
-  ?list.map((p,i)=>`
-    <div class="item">
-     <strong>${safe(p.store)} — ${euro(p.price)}</strong>
-     ${i===0?'<span class="pill good">Menor precio registrado</span>':""}
-     <p class="muted small">${safe(p.date||"Sin fecha")} · ${safe(p.origin||"Manual")}</p>
-    </div>
-   `).join("")
-  :'<p class="muted">No hay precios para este producto.</p>';
-}
-
-function saveBudget(){
- let n=number($("budget").value);
- if(!Number.isFinite(n)||n<0)return message("Presupuesto incorrecto.",true);
- data.budget=n;save();render();
- message("Presupuesto guardado.");
-}
-
-function addItem(){
- let product=$("itemName").value.trim();
- let qty=number($("itemQty").value);
- if(!product||!Number.isFinite(qty)||qty<=0)
-  return message("Introduce producto y cantidad válida.",true);
- data.items.push({product,qty});
- $("itemName").value="";
- save();render();
- message("Producto añadido.");
-}
-
-function removeItem(i){
- data.items.splice(i,1);save();render();
-}
-
-function addPrice(){
- let product=$("priceProduct").value.trim();
- let store=$("priceStore").value.trim();
- let price=number($("priceAmount").value);
- if(!product||!store||!Number.isFinite(price)||price<0)
-  return message("Completa los datos del precio.",true);
- upsert([{
-  product,store,price,
-  date:new Date().toISOString().slice(0,10),
-  source:$("priceSource").value.trim(),
-  origin:"Manual"
- }]);
- $("priceProduct").value="";
- $("priceAmount").value="";
- message("Precio guardado.");
-}
-
-function upsert(list){
- for(let p of list){
-  let i=data.prices.findIndex(x=>
-   norm(x.product)===norm(p.product)&&
-   norm(x.store)===norm(p.store)
-  );
-  if(i>=0)data.prices[i]=p;
-  else data.prices.push(p);
+ if(missing){
+  $("costView").title=
+   missing+" producto(s) sin precio registrado";
  }
- save();render();
 }
 
-function removePrice(i){
- data.prices.splice(i,1);save();render();
+function parseCSV(text){
+ const first=String(text).replace(/^\uFEFF/,"");
+ const lines=first.split(/\r?\n/).filter(s=>s.trim());
+ if(!lines.length)return [];
+
+ const delimiter=lines[0].includes(";")?";":",";
+
+ function parseLine(line){
+  const fields=[];
+  let value="";
+  let quoted=false;
+
+  for(let i=0;i<line.length;i++){
+   const c=line[i];
+
+   if(c==='"'){
+    if(quoted&&line[i+1]==='"'){
+     value+='"';
+     i++;
+    }else quoted=!quoted;
+   }else if(c===delimiter&&!quoted){
+    fields.push(value.trim());
+    value="";
+   }else value+=c;
+  }
+  fields.push(value.trim());
+  return fields;
+ }
+
+ const headers=parseLine(lines[0]).map(norm);
+
+ function column(...names){
+  return headers.findIndex(h=>names.includes(h));
+ }
+
+ const productCol=column("producto","product");
+ const storeCol=column("supermercado","tienda","store");
+ const priceCol=column("precio","price");
+ const dateCol=column("fecha","date");
+ const sourceCol=column("fuente","source");
+
+ if(productCol<0||storeCol<0||priceCol<0){
+  throw Error(
+   "El CSV necesita columnas producto, supermercado y precio."
+  );
+ }
+
+ const results=[];
+
+ for(let i=1;i<lines.length;i++){
+  const cells=parseLine(lines[i]);
+  const product=cells[productCol]||"";
+  const store=cells[storeCol]||"";
+  const raw=cells[priceCol]||"";
+  const numeric=raw.replace(/\s/g,"")
+   .replace("€","").replace(",",".");
+  const price=Number(numeric);
+
+  if(!product||!store||!raw||
+     !Number.isFinite(price)||price<0)continue;
+
+  results.push({
+   product,
+   store,
+   price,
+   date:dateCol>=0?cells[dateCol]:today(),
+   source:sourceCol>=0?cells[sourceCol]:"CSV importado"
+  });
+ }
+ return results;
+}
+
+function importRecords(records){
+ let count=0;
+ records.forEach(record=>{
+  if(upsert(record))count++;
+ });
+ persist();
+ render();
+ return count;
+}
+
+async function importFile(){
+ const file=$("csvFile").files[0];
+
+ if(!file){
+  alert("Selecciona primero un archivo CSV.");
+  return;
+ }
+
+ try{
+  const text=await file.text();
+  const records=parseCSV(text);
+  const count=importRecords(records);
+  $("updateStatus").textContent=
+   "Importados: "+count+" precios · "+new Date().toLocaleString("es-ES");
+ }catch(error){
+  alert("No se pudo importar: "+error.message);
+ }
 }
 
 function saveUrl(){
- data.url=$("csvUrl").value.trim();
- save();
- message("Dirección guardada.");
-}
-
-function parseCsv(text){
- text=text.replace(/^\uFEFF/,"");
- let first=text.split(/\r?\n/)[0]||"";
- let sep=[";",",","\t"].sort((a,b)=>
-  first.split(b).length-first.split(a).length
- )[0];
-
- let rows=[],row=[],field="",quoted=false;
-
- for(let i=0;i<text.length;i++){
-  let c=text[i];
-  if(c==='"'){
-   if(quoted&&text[i+1]==='"'){field+='"';i++}
-   else quoted=!quoted;
-  }else if(c===sep&&!quoted){
-   row.push(field);field="";
-  }else if((c==="\n"||c==="\r")&&!quoted){
-   if(c==="\r"&&text[i+1]==="\n")i++;
-   row.push(field);
-   if(row.some(x=>x.trim()))rows.push(row);
-   row=[];field="";
-  }else field+=c;
- }
- row.push(field);
- if(row.some(x=>x.trim()))rows.push(row);
- return rows;
-}
-
-function importCsv(text,origin){
- let rows=parseCsv(text);
- if(rows.length<2)throw Error("CSV vacío o sin datos.");
-
- let headers=rows.shift().map(x=>
-  norm(x).normalize("NFD").replace(/[\u0300-\u036f]/g,"")
- );
- let find=(...names)=>headers.findIndex(x=>names.includes(x));
-
- let p=find("producto","product","nombre");
- let s=find("supermercado","store","tienda");
- let v=find("precio","price");
- let d=find("fecha","date");
- let f=find("fuente","source","url");
-
- if(p<0||s<0||v<0)
-  throw Error("Faltan columnas: producto, supermercado o precio.");
-
- let list=[];
- for(let row of rows){
-  let product=(row[p]||"").trim();
-  let store=(row[s]||"").trim();
-  let price=number(row[v]);
-  if(!product||!store||!Number.isFinite(price)||price<0)continue;
-  list.push({
-   product,store,price,
-   date:d>=0?(row[d]||"").trim():"Sin fecha de origen",
-   source:f>=0?(row[f]||"").trim():"",
-   origin
-  });
- }
-
- if(!list.length)throw Error("No hay precios válidos.");
- upsert(list);
- data.lastUpdate=new Date().toLocaleString("es-ES");
- save();render();
- message("Importados "+list.length+" precios.");
+ data.csvUrl=$("csvUrl").value.trim();
+ persist();
+ $("updateStatus").textContent=
+  data.csvUrl?"Dirección CSV guardada.":"Dirección CSV eliminada.";
 }
 
 async function updatePrices(){
- let url=$("csvUrl").value.trim();
- if(!/^https:\/\//i.test(url))
-  return message("Introduce una URL HTTPS válida.",true);
+ const url=data.csvUrl;
 
- data.url=url;save();
- $("updateBtn").disabled=true;
- message("Consultando precios...");
+ if(!url){
+  alert("Primero guarda una dirección CSV.");
+  return;
+ }
 
  try{
-  let response=await fetch(url,{cache:"no-store"});
-  if(!response.ok)throw Error("HTTP "+response.status);
-  importCsv(await response.text(),"CSV externo");
- }catch(e){
-  message(
-   "No se pudo actualizar: "+e.message+
-   ". Los precios guardados se conservan.",
-   true
-  );
- }finally{
-  $("updateBtn").disabled=false;
+  const parsed=new URL(url);
+  if(!["https:","http:"].includes(parsed.protocol)){
+   throw Error("La dirección debe comenzar por https://");
+  }
+
+  $("updateStatus").textContent="Consultando archivo CSV...";
+
+  const response=await fetch(url,{cache:"no-store"});
+  if(!response.ok){
+   throw Error("Error HTTP "+response.status);
+  }
+
+  const text=await response.text();
+  const records=parseCSV(text);
+  const count=importRecords(records);
+
+  $("updateStatus").textContent=
+   "Actualización terminada: "+count+
+   " precios · "+new Date().toLocaleString("es-ES");
+ }catch(error){
+  $("updateStatus").textContent=
+   "No se pudo actualizar. Comprueba la dirección, "+
+   "el formato CSV y los permisos CORS. "+
+   error.message;
  }
 }
 
-$("csvFile").addEventListener("change",async e=>{
- let file=e.target.files[0];
- if(!file)return;
- try{
-  importCsv(await file.text(),"CSV local");
- }catch(err){
-  message(err.message,true);
- }
- e.target.value="";
-});
+function csvCell(value){
+ const s=String(value??"");
+ return '"'+s.replace(/"/g,'""')+'"';
+}
 
 function exportPrices(){
- let rows=[
-  ["producto","supermercado","precio","fecha","fuente"],
-  ...data.prices.map(p=>[
-   p.product,p.store,p.price,p.date,p.source||""
-  ])
+ const headers=[
+  "producto","supermercado","precio","fecha","fuente"
  ];
- let csv="\uFEFF"+rows.map(row=>
-  row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(";")
- ).join("\r\n");
 
- let blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
- let a=document.createElement("a");
- a.href=URL.createObjectURL(blob);
- a.download="ahorrago-precios.csv";
- a.click();
- setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+ const lines=[headers.join(",")];
+
+ data.prices.forEach(p=>{
+  lines.push([
+   p.product,p.store,p.price,p.date,p.source
+  ].map(csvCell).join(","));
+ });
+
+ const csv="\uFEFF"+lines.join("\r\n");
+ const blob=new Blob([csv],{
+  type:"text/csv;charset=utf-8"
+ });
+
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement("a");
+ link.href=url;
+ link.download="ahorrago-precios.csv";
+ document.body.append(link);
+ link.click();
+ link.remove();
+
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
+$("csvUrl").value=data.csvUrl;
 render();
 </script>
+
 </body>
 </html>
