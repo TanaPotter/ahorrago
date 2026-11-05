@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080612">
 <title>AhorraGo 6.5 Galaxia</title>
 <link rel="manifest" href="./manifest.json">
@@ -67,7 +67,11 @@ button.danger{background:#7d294a}
 .row input{flex:1}
 .full{width:100%;margin-top:12px}
 .cards{display:grid;gap:12px;margin-top:18px}
-.stat{background:#080718;padding:20px;border-radius:22px}
+.stat{
+ background:#080718;
+ padding:20px;
+ border-radius:22px
+}
 .value{font-size:2rem;font-weight:750;margin-top:6px}
 .green,.price{color:#80e6c6}
 .price{font-weight:bold}
@@ -84,8 +88,6 @@ button.danger{background:#7d294a}
  align-items:center;
  gap:10px
 }
-.item-actions{display:flex;gap:7px;flex-wrap:wrap}
-.item-actions button{padding:9px 12px}
 .notice{
  background:#1b1731;
  padding:13px;
@@ -94,15 +96,11 @@ button.danger{background:#7d294a}
  font-size:14px;
  line-height:1.5
 }
-table{width:100%;border-collapse:collapse}
-td,th{
- text-align:left;
- padding:10px 5px;
- border-bottom:1px solid #37314f;
- font-size:14px
+footer{
+ text-align:center;
+ color:#b5acc9;
+ padding:30px
 }
-.table-wrap{overflow-x:auto}
-footer{text-align:center;color:#b5acc9;padding:30px}
 @media(min-width:600px){
  .cards{grid-template-columns:repeat(3,1fr)}
 }
@@ -110,11 +108,12 @@ footer{text-align:center;color:#b5acc9;padding:30px}
 </head>
 
 <body>
+
 <header>
  <div class="logo">🛒🌌</div>
  <h1>AhorraGo <span>6.5</span></h1>
  <p class="subtitle">✨ Tu ahorro, en otra galaxia ✨</p>
- <div class="tag">Precios con fuente y fecha</div>
+ <div class="tag">Precios con fuente, fecha e isla</div>
 </header>
 
 <main>
@@ -140,25 +139,40 @@ footer{text-align:center;color:#b5acc9;padding:30px}
    <div class="value green" id="leftView">255,00 €</div>
   </div>
  </div>
- <p class="small">Los importes son estimaciones basadas en los precios registrados.</p>
+ <p class="small">
+  Estimaciones basadas en los precios registrados para la isla elegida.
+ </p>
 </section>
 
 <section>
  <h2>🛒 Mi lista de la compra</h2>
  <label for="product">Producto</label>
- <input id="product" placeholder="Ejemplo: leche">
-
+ <input id="product" placeholder="Ejemplo: leche entera 1 L">
  <label for="quantity">Cantidad</label>
  <input id="quantity" type="number" min="1" step="1" value="1">
-
  <button class="full" onclick="addItem()">Añadir a mi lista</button>
  <div id="shoppingList"></div>
 </section>
 
 <section>
  <h2>🔎 Comparar supermercados</h2>
+
+ <label for="islaComparador">🏝️ Selecciona tu isla</label>
+ <select id="islaComparador" onchange="changeIsland()">
+  <option value="">Todas las islas</option>
+  <option>Gran Canaria</option>
+  <option>Tenerife</option>
+  <option>Lanzarote</option>
+  <option>Fuerteventura</option>
+  <option>La Palma</option>
+  <option>La Gomera</option>
+  <option>El Hierro</option>
+  <option>La Graciosa</option>
+ </select>
+
  <label for="searchProduct">Buscar producto</label>
- <input id="searchProduct" placeholder="Ejemplo: arroz"
+ <input id="searchProduct"
+        placeholder="Ejemplo: leche"
         oninput="renderCompare()">
 
  <label for="storeFilter">Supermercado</label>
@@ -172,13 +186,21 @@ footer{text-align:center;color:#b5acc9;padding:30px}
   <option>Carrefour</option>
   <option>Alcampo</option>
  </select>
+
  <div id="compareResults"></div>
+
+ <p class="small">
+  Compara productos equivalentes de la misma marca,
+  cantidad y formato. «Todas las islas» muestra
+  precios de distintas zonas; no implica que estén
+  disponibles en tu isla.
+ </p>
 </section>
 
 <section>
  <h2>🏷️ Añadir precio comprobado</h2>
 
- <label for="priceProduct">Producto</label>
+ <label for="priceProduct">Producto (incluye cantidad y formato)</label>
  <input id="priceProduct" placeholder="Ejemplo: leche entera 1 L">
 
  <label for="priceStore">Supermercado</label>
@@ -192,6 +214,19 @@ footer{text-align:center;color:#b5acc9;padding:30px}
   <option>Alcampo</option>
  </select>
 
+ <label for="priceIsland">Isla del precio</label>
+ <select id="priceIsland">
+  <option value="">Sin isla especificada</option>
+  <option>Gran Canaria</option>
+  <option>Tenerife</option>
+  <option>Lanzarote</option>
+  <option>Fuerteventura</option>
+  <option>La Palma</option>
+  <option>La Gomera</option>
+  <option>El Hierro</option>
+  <option>La Graciosa</option>
+ </select>
+
  <label for="priceValue">Precio (€)</label>
  <input id="priceValue" type="number" min="0" step=".01"
         placeholder="Ejemplo: 1.25">
@@ -200,15 +235,21 @@ footer{text-align:center;color:#b5acc9;padding:30px}
  <input id="priceSource" placeholder="Ejemplo: web oficial o ticket">
 
  <button class="full" onclick="addPrice()">Guardar precio</button>
- <p class="small">Introduce únicamente precios que hayas comprobado.</p>
+
+ <p class="small">
+  Introduce solo precios comprobados. Los precios anteriores
+  se conservan como «Sin isla especificada».
+ </p>
 </section>
 
 <section>
  <h2>🔄 Actualización de precios</h2>
+
  <p class="notice">
- Esta versión permite importar archivos CSV.
- La actualización automática diaria todavía requiere
- conectar una fuente compatible y verificable.
+  Puedes importar CSV con columnas producto, supermercado,
+  precio, fecha, fuente e isla. La actualización automática
+  real de HiperDino y Mercadona aún necesita fuentes
+  autorizadas, compatibles y verificables.
  </p>
 
  <h3>Importar archivo CSV</h3>
@@ -235,501 +276,578 @@ footer{text-align:center;color:#b5acc9;padding:30px}
 <section>
  <h2>📋 Precios guardados</h2>
  <p class="small">
- Los precios se guardan en este navegador.
- No se comparten automáticamente con otros móviles.
+  Los datos se guardan en este navegador.
+  No se comparten automáticamente entre dispositivos.
  </p>
  <div id="savedPrices"></div>
 </section>
 
 </main>
 
-<footer>
- AhorraGo 6.5 Galaxia 🛒🌌
-</footer>
+<footer>AhorraGo 6.5 Galaxia 🛒🌌</footer>
 
 <script>
 "use strict";
 
-const KEY="ahorrago65";
-const STORES=[
- "HiperDino","Mercadona","Lidl","SPAR",
- "DIA","Carrefour","Alcampo"
-];
+const KEY = "ahorrago65";
+const $ = id => document.getElementById(id);
 
-const $=id=>document.getElementById(id);
-
-const norm=s=>String(s||"")
+const norm = s => String(s ?? "")
  .normalize("NFD")
- .replace(/[\u0300-\u036f]/g,"")
- .trim().toLowerCase();
+ .replace(/[\u0300-\u036f]/g, "")
+ .trim()
+ .toLowerCase();
 
-const money=n=>Number(n||0).toLocaleString(
- "es-ES",{style:"currency",currency:"EUR"}
-);
+const money = n => Number(n || 0).toLocaleString("es-ES", {
+ style: "currency",
+ currency: "EUR"
+});
 
-const today=()=>new Date().toISOString().slice(0,10);
+const today = () => {
+ const d = new Date();
+ return [
+  d.getFullYear(),
+  String(d.getMonth() + 1).padStart(2, "0"),
+  String(d.getDate()).padStart(2, "0")
+ ].join("-");
+};
 
-function initialData(){
- return {budget:255,items:[],prices:[],csvUrl:""};
+function initialData() {
+ return {
+  budget: 255,
+  items: [],
+  prices: [],
+  csvUrl: "",
+  island: ""
+ };
 }
 
-function load(){
- try{
-  const saved=JSON.parse(localStorage.getItem(KEY));
-  if(!saved||typeof saved!=="object")return initialData();
+function load() {
+ try {
+  const x = JSON.parse(localStorage.getItem(KEY));
+  if (!x || typeof x !== "object") return initialData();
+
   return {
-   budget:Number.isFinite(Number(saved.budget))
-    ?Number(saved.budget):255,
-   items:Array.isArray(saved.items)?saved.items:[],
-   prices:Array.isArray(saved.prices)?saved.prices:[],
-   csvUrl:String(saved.csvUrl||"")
+   budget: Number.isFinite(Number(x.budget))
+    ? Number(x.budget) : 255,
+   items: Array.isArray(x.items) ? x.items : [],
+   prices: Array.isArray(x.prices) ? x.prices : [],
+   csvUrl: String(x.csvUrl || ""),
+   island: String(x.island || "")
   };
- }catch{
+ } catch {
   return initialData();
  }
 }
 
-let data=load();
+let data = load();
 
-function persist(){
- try{
-  localStorage.setItem(KEY,JSON.stringify(data));
- }catch{
-  alert("No se pudieron guardar los datos en este navegador.");
+function persist() {
+ try {
+  localStorage.setItem(KEY, JSON.stringify(data));
+ } catch {
+  alert("No se pudieron guardar los datos.");
  }
 }
 
-function el(tag,text,className){
- const node=document.createElement(tag);
- if(text!==undefined)node.textContent=String(text);
- if(className)node.className=className;
- return node;
+function el(tag, text, cls) {
+ const e = document.createElement(tag);
+ if (text !== undefined) e.textContent = String(text);
+ if (cls) e.className = cls;
+ return e;
 }
 
-function clear(node){
+function clear(node) {
  node.replaceChildren();
 }
 
-function saveBudget(){
- const value=Number($("budget").value);
- if(!Number.isFinite(value)||value<0){
-  alert("Introduce un presupuesto válido.");
-  return;
- }
- data.budget=value;
+function selectedPrices() {
+ return data.prices.filter(p =>
+  !data.island || norm(p.island) === norm(data.island)
+ );
+}
+
+function changeIsland() {
+ data.island = $("islaComparador").value;
  persist();
  render();
 }
 
-function addItem(){
- const product=$("product").value.trim();
- const quantity=Number($("quantity").value);
+function saveBudget() {
+ const v = Number($("budget").value);
+ if (!Number.isFinite(v) || v < 0) {
+  return alert("Presupuesto no válido.");
+ }
+ data.budget = v;
+ persist();
+ render();
+}
 
- if(!product||!Number.isInteger(quantity)||quantity<1){
-  alert("Escribe un producto y una cantidad válida.");
-  return;
+function addItem() {
+ const product = $("product").value.trim();
+ const quantity = Number($("quantity").value);
+
+ if (!product || !Number.isInteger(quantity) || quantity < 1) {
+  return alert("Introduce producto y cantidad válidos.");
  }
 
  data.items.push({
-  id:Date.now()+Math.random(),
+  id: Date.now() + Math.random(),
   product,
   quantity
  });
 
- $("product").value="";
- $("quantity").value="1";
+ $("product").value = "";
+ $("quantity").value = 1;
  persist();
  render();
 }
 
-function removeItem(id){
- data.items=data.items.filter(item=>item.id!==id);
+function removeItem(id) {
+ data.items = data.items.filter(x => x.id !== id);
  persist();
  render();
 }
 
-function offersFor(product){
- return data.prices.filter(p=>
-  norm(p.product)===norm(product)
+function bestOffer(product) {
+ const a = selectedPrices().filter(p =>
+  norm(p.product) === norm(product)
  );
+
+ return a.length
+  ? a.reduce((x, y) =>
+     Number(x.price) <= Number(y.price) ? x : y
+    )
+  : null;
 }
 
-function bestOffer(product){
- const offers=offersFor(product);
- if(!offers.length)return null;
- return offers.reduce((a,b)=>a.price<=b.price?a:b);
-}
+function upsert(p) {
+ const product = String(p.product || "").trim();
+ const store = String(p.store || "").trim();
+ const price = Number(p.price);
+ const island = String(p.island || "").trim();
 
-function upsert(price){
- const product=String(price.product||"").trim();
- const store=String(price.store||"").trim();
- const value=Number(price.price);
-
- if(!product||!store||!Number.isFinite(value)||value<0){
+ if (!product || !store || !Number.isFinite(price) || price < 0) {
   return false;
  }
 
- const record={
+ const r = {
   product,
   store,
-  price:value,
-  date:String(price.date||today()),
-  source:String(price.source||"Sin fuente")
+  price,
+  date: String(p.date || today()),
+  source: String(p.source || "Sin fuente"),
+  island
  };
 
- const index=data.prices.findIndex(p=>
-  norm(p.product)===norm(product)&&
-  norm(p.store)===norm(store)
+ const i = data.prices.findIndex(x =>
+  norm(x.product) === norm(product) &&
+  norm(x.store) === norm(store) &&
+  norm(x.island) === norm(island)
  );
 
- if(index>=0)data.prices[index]=record;
- else data.prices.push(record);
+ if (i >= 0) data.prices[i] = r;
+ else data.prices.push(r);
+
  return true;
 }
 
-function addPrice(){
- const product=$("priceProduct").value.trim();
- const store=$("priceStore").value;
- const price=Number($("priceValue").value);
- const source=$("priceSource").value.trim();
+function addPrice() {
+ const product = $("priceProduct").value.trim();
+ const store = $("priceStore").value;
+ const raw = $("priceValue").value;
+ const source = $("priceSource").value.trim();
+ const island = $("priceIsland").value;
 
- if(!$("priceValue").value.trim()||
-    !product||
-    !Number.isFinite(price)||
-    price<0){
-  alert("Introduce un producto y un precio válido.");
-  return;
+ if (!product || !raw.trim() ||
+     !Number.isFinite(Number(raw)) || Number(raw) < 0) {
+  return alert("Producto y precio válidos obligatorios.");
  }
 
- upsert({product,store,price,source,date:today()});
+ upsert({
+  product,
+  store,
+  price: Number(raw),
+  source: source || "Sin fuente",
+  island,
+  date: today()
+ });
+
  persist();
 
- $("priceProduct").value="";
- $("priceValue").value="";
- $("priceSource").value="";
+ $("priceProduct").value = "";
+ $("priceValue").value = "";
+ $("priceSource").value = "";
+
  render();
 }
 
-function removePrice(product,store){
- data.prices=data.prices.filter(p=>!(
-  norm(p.product)===norm(product)&&
-  norm(p.store)===norm(store)
- ));
+function removePrice(product, store, island) {
+ data.prices = data.prices.filter(p =>
+  !(
+   norm(p.product) === norm(product) &&
+   norm(p.store) === norm(store) &&
+   norm(p.island) === norm(island)
+  )
+ );
  persist();
  render();
 }
 
-function renderList(){
- const root=$("shoppingList");
+function renderList() {
+ const root = $("shoppingList");
  clear(root);
 
- if(!data.items.length){
-  root.append(el("p","Tu lista está vacía.","small"));
+ if (!data.items.length) {
+  root.append(el("p", "Tu lista está vacía.", "small"));
   return;
  }
 
- data.items.forEach(item=>{
-  const card=el("div",undefined,"item");
-  const top=el("div",undefined,"item-top");
-  const info=el("div");
-  info.append(el("strong",item.product));
-  info.append(el("div","Cantidad: "+item.quantity,"small"));
+ for (const item of data.items) {
+  const card = el("div", undefined, "item");
+  const top = el("div", undefined, "item-top");
+  const info = el("div");
+  const best = bestOffer(item.product);
 
-  const best=bestOffer(item.product);
-  info.append(el(
-   "div",
-   best
-    ?"Estimación: "+money(best.price*item.quantity)+
-     " · "+best.store
-    :"Sin precio registrado",
-   best?"price":"small"
-  ));
+  info.append(
+   el("strong", item.product),
+   el("div", "Cantidad: " + item.quantity, "small"),
+   el(
+    "div",
+    best
+     ? "Estimación: " + money(best.price * item.quantity) +
+       " · " + best.store
+     : "Sin precio registrado para la isla seleccionada",
+    best ? "price" : "small"
+   )
+  );
 
-  const remove=el("button","Quitar","danger");
-  remove.onclick=()=>removeItem(item.id);
+  const b = el("button", "Quitar", "danger");
+  b.onclick = () => removeItem(item.id);
 
-  top.append(info,remove);
+  top.append(info, b);
   card.append(top);
   root.append(card);
- });
+ }
 }
 
-function renderCompare(){
- const root=$("compareResults");
+function renderCompare() {
+ const root = $("compareResults");
  clear(root);
 
- const query=norm($("searchProduct").value);
- const store=norm($("storeFilter").value);
+ const query = norm($("searchProduct").value);
+ const store = norm($("storeFilter").value);
 
- const matches=data.prices.filter(p=>
-  (!query||norm(p.product).includes(query))&&
-  (!store||norm(p.store)===store)
- ).sort((a,b)=>a.price-b.price);
+ const rows = selectedPrices()
+  .filter(p =>
+   (!query || norm(p.product).includes(query)) &&
+   (!store || norm(p.store) === store)
+  )
+  .sort((a, b) => a.price - b.price);
 
- if(!matches.length){
-  root.append(el(
-   "p",
-   "No hay precios registrados para esta búsqueda.",
-   "small"
-  ));
+ if (!rows.length) {
+  root.append(
+   el("p", "No hay precios registrados para esta búsqueda e isla.", "small")
+  );
   return;
  }
 
- matches.forEach(p=>{
-  const card=el("div",undefined,"item");
-  card.append(el("strong",p.product));
-  card.append(el("div",p.store+" · "+money(p.price),"price"));
-  card.append(el(
-   "div",
-   "Fecha: "+p.date+" · Fuente: "+p.source,
-   "small"
-  ));
-  root.append(card);
- });
+ for (const p of rows) {
+  const c = el("div", undefined, "item");
+
+  c.append(
+   el("strong", p.product),
+   el("div", p.store + " · " + money(p.price), "price"),
+   el(
+    "div",
+    "Isla: " + (p.island || "Sin isla especificada") +
+    " · Fecha: " + p.date +
+    " · Fuente: " + p.source,
+    "small"
+   )
+  );
+
+  root.append(c);
+ }
 }
 
-function renderSavedPrices(){
- const root=$("savedPrices");
+function renderSavedPrices() {
+ const root = $("savedPrices");
  clear(root);
 
- if(!data.prices.length){
-  root.append(el("p","Todavía no hay precios guardados.","small"));
+ if (!data.prices.length) {
+  root.append(
+   el("p", "Todavía no hay precios guardados.", "small")
+  );
   return;
  }
 
- const sorted=[...data.prices].sort((a,b)=>
-  a.product.localeCompare(b.product,"es")
+ const sorted = [...data.prices].sort((a, b) =>
+  String(a.product).localeCompare(String(b.product), "es")
  );
 
- sorted.forEach(p=>{
-  const card=el("div",undefined,"item");
-  card.append(el("strong",p.product));
-  card.append(el("div",p.store+" · "+money(p.price),"price"));
-  card.append(el(
-   "div",
-   "Fecha: "+p.date+" · Fuente: "+p.source,
-   "small"
-  ));
+ for (const p of sorted) {
+  const c = el("div", undefined, "item");
 
-  const button=el("button","Eliminar","danger");
-  button.style.marginTop="10px";
-  button.onclick=()=>{
-   if(confirm("¿Eliminar este precio?")){
-    removePrice(p.product,p.store);
+  c.append(
+   el("strong", p.product),
+   el("div", p.store + " · " + money(p.price), "price"),
+   el(
+    "div",
+    "Isla: " + (p.island || "Sin isla especificada") +
+    " · Fecha: " + p.date +
+    " · Fuente: " + p.source,
+    "small"
+   )
+  );
+
+  const b = el("button", "Eliminar", "danger");
+  b.style.marginTop = "10px";
+  b.onclick = () => {
+   if (confirm("¿Eliminar este precio?")) {
+    removePrice(p.product, p.store, p.island);
    }
   };
-  card.append(button);
-  root.append(card);
- });
+
+  c.append(b);
+  root.append(c);
+ }
 }
 
-function render(){
- $("budget").value=data.budget;
- $("budgetView").textContent=money(data.budget);
+function render() {
+ $("islaComparador").value = data.island;
+ $("budget").value = data.budget;
+ $("budgetView").textContent = money(data.budget);
 
- let total=0;
- let missing=0;
+ let total = 0;
+ let missing = 0;
 
- data.items.forEach(item=>{
-  const best=bestOffer(item.product);
-  if(best)total+=best.price*item.quantity;
+ for (const item of data.items) {
+  const best = bestOffer(item.product);
+  if (best) total += best.price * item.quantity;
   else missing++;
- });
+ }
 
- $("costView").textContent=money(total);
- $("leftView").textContent=money(data.budget-total);
+ $("costView").textContent = money(total);
+ $("leftView").textContent = money(data.budget - total);
+ $("costView").title = missing + " producto(s) sin precio";
 
  renderList();
  renderCompare();
  renderSavedPrices();
-
- if(missing){
-  $("costView").title=
-   missing+" producto(s) sin precio registrado";
- }
 }
 
-function parseCSV(text){
- const first=String(text).replace(/^\uFEFF/,"");
- const lines=first.split(/\r?\n/).filter(s=>s.trim());
- if(!lines.length)return [];
+function parseCSV(text) {
+ const lines = String(text)
+  .replace(/^\uFEFF/, "")
+  .split(/\r?\n/)
+  .filter(s => s.trim());
 
- const delimiter=lines[0].includes(";")?";":",";
+ if (!lines.length) return [];
 
- function parseLine(line){
-  const fields=[];
-  let value="";
-  let quoted=false;
+ const delimiter = lines[0].includes(";") ? ";" : ",";
 
-  for(let i=0;i<line.length;i++){
-   const c=line[i];
+ function parseLine(line) {
+  const fields = [];
+  let v = "";
+  let quoted = false;
 
-   if(c==='"'){
-    if(quoted&&line[i+1]==='"'){
-     value+='"';
+  for (let i = 0; i < line.length; i++) {
+   const c = line[i];
+
+   if (c === '"') {
+    if (quoted && line[i + 1] === '"') {
+     v += '"';
      i++;
-    }else quoted=!quoted;
-   }else if(c===delimiter&&!quoted){
-    fields.push(value.trim());
-    value="";
-   }else value+=c;
+    } else {
+     quoted = !quoted;
+    }
+   } else if (c === delimiter && !quoted) {
+    fields.push(v.trim());
+    v = "";
+   } else {
+    v += c;
+   }
   }
-  fields.push(value.trim());
+
+  fields.push(v.trim());
   return fields;
  }
 
- const headers=parseLine(lines[0]).map(norm);
+ const headers = parseLine(lines[0]).map(norm);
 
- function column(...names){
-  return headers.findIndex(h=>names.includes(h));
- }
+ const col = (...names) =>
+  headers.findIndex(x => names.includes(x));
 
- const productCol=column("producto","product");
- const storeCol=column("supermercado","tienda","store");
- const priceCol=column("precio","price");
- const dateCol=column("fecha","date");
- const sourceCol=column("fuente","source");
+ const pc = col("producto", "product");
+ const sc = col("supermercado", "tienda", "store");
+ const vc = col("precio", "price");
+ const dc = col("fecha", "date");
+ const fc = col("fuente", "source");
+ const ic = col("isla", "island");
 
- if(productCol<0||storeCol<0||priceCol<0){
+ if (pc < 0 || sc < 0 || vc < 0) {
   throw Error(
    "El CSV necesita columnas producto, supermercado y precio."
   );
  }
 
- const results=[];
+ const out = [];
 
- for(let i=1;i<lines.length;i++){
-  const cells=parseLine(lines[i]);
-  const product=cells[productCol]||"";
-  const store=cells[storeCol]||"";
-  const raw=cells[priceCol]||"";
-  const numeric=raw.replace(/\s/g,"")
-   .replace("€","").replace(",",".");
-  const price=Number(numeric);
+ for (let i = 1; i < lines.length; i++) {
+  const x = parseLine(lines[i]);
+  const product = x[pc] || "";
+  const store = x[sc] || "";
+  const raw = x[vc] || "";
 
-  if(!product||!store||!raw||
-     !Number.isFinite(price)||price<0)continue;
+  const price = Number(
+   raw.replace(/\s/g, "").replace("€", "").replace(",", ".")
+  );
 
-  results.push({
+  if (!product || !store || !raw ||
+      !Number.isFinite(price) || price < 0) {
+   continue;
+  }
+
+  out.push({
    product,
    store,
    price,
-   date:dateCol>=0?cells[dateCol]:today(),
-   source:sourceCol>=0?cells[sourceCol]:"CSV importado"
+   date: dc >= 0 ? x[dc] : today(),
+   source: fc >= 0 ? x[fc] : "CSV importado",
+   island: ic >= 0 ? x[ic] : ""
   });
  }
- return results;
+
+ return out;
 }
 
-function importRecords(records){
- let count=0;
- records.forEach(record=>{
-  if(upsert(record))count++;
- });
+function importRecords(rows) {
+ let n = 0;
+
+ for (const p of rows) {
+  if (upsert(p)) n++;
+ }
+
  persist();
  render();
- return count;
+ return n;
 }
 
-async function importFile(){
- const file=$("csvFile").files[0];
+async function importFile() {
+ const file = $("csvFile").files[0];
 
- if(!file){
-  alert("Selecciona primero un archivo CSV.");
-  return;
+ if (!file) {
+  return alert("Selecciona primero un archivo CSV.");
  }
 
- try{
-  const text=await file.text();
-  const records=parseCSV(text);
-  const count=importRecords(records);
-  $("updateStatus").textContent=
-   "Importados: "+count+" precios · "+new Date().toLocaleString("es-ES");
- }catch(error){
-  alert("No se pudo importar: "+error.message);
+ try {
+  const rows = parseCSV(await file.text());
+  const n = importRecords(rows);
+
+  $("updateStatus").textContent =
+   "Importados: " + n + " precios · " +
+   new Date().toLocaleString("es-ES");
+
+  if (!n) {
+   alert("El archivo no contiene precios válidos para importar.");
+  }
+ } catch (e) {
+  alert("No se pudo importar: " + e.message);
  }
 }
 
-function saveUrl(){
- data.csvUrl=$("csvUrl").value.trim();
+function saveUrl() {
+ data.csvUrl = $("csvUrl").value.trim();
  persist();
- $("updateStatus").textContent=
-  data.csvUrl?"Dirección CSV guardada.":"Dirección CSV eliminada.";
+
+ $("updateStatus").textContent = data.csvUrl
+  ? "Dirección CSV guardada."
+  : "Dirección CSV eliminada.";
 }
 
-async function updatePrices(){
- const url=data.csvUrl;
-
- if(!url){
-  alert("Primero guarda una dirección CSV.");
-  return;
+async function updatePrices() {
+ if (!data.csvUrl) {
+  return alert("Primero guarda una dirección CSV.");
  }
 
- try{
-  const parsed=new URL(url);
-  if(!["https:","http:"].includes(parsed.protocol)){
-   throw Error("La dirección debe comenzar por https://");
+ try {
+  const u = new URL(data.csvUrl);
+
+  if (!["https:", "http:"].includes(u.protocol)) {
+   throw Error("Usa una dirección http o https.");
   }
 
-  $("updateStatus").textContent="Consultando archivo CSV...";
+  $("updateStatus").textContent = "Consultando CSV...";
 
-  const response=await fetch(url,{cache:"no-store"});
-  if(!response.ok){
-   throw Error("Error HTTP "+response.status);
+  const res = await fetch(data.csvUrl, {
+   cache: "no-store"
+  });
+
+  if (!res.ok) {
+   throw Error("HTTP " + res.status);
   }
 
-  const text=await response.text();
-  const records=parseCSV(text);
-  const count=importRecords(records);
+  const rows = parseCSV(await res.text());
+  const n = importRecords(rows);
 
-  $("updateStatus").textContent=
-   "Actualización terminada: "+count+
-   " precios · "+new Date().toLocaleString("es-ES");
- }catch(error){
-  $("updateStatus").textContent=
-   "No se pudo actualizar. Comprueba la dirección, "+
-   "el formato CSV y los permisos CORS. "+
-   error.message;
+  $("updateStatus").textContent =
+   "Importados: " + n + " precios · " +
+   new Date().toLocaleString("es-ES");
+
+  if (!n) {
+   alert("El CSV no contiene precios válidos.");
+  }
+ } catch (e) {
+  $("updateStatus").textContent =
+   "No se pudo actualizar. Comprueba CSV y permisos CORS: " +
+   e.message;
  }
 }
 
-function csvCell(value){
- const s=String(value??"");
- return '"'+s.replace(/"/g,'""')+'"';
+function csvCell(x) {
+ return '"' + String(x ?? "").replace(/"/g, '""') + '"';
 }
 
-function exportPrices(){
- const headers=[
-  "producto","supermercado","precio","fecha","fuente"
+function exportPrices() {
+ const lines = [
+  ["producto", "supermercado", "precio", "fecha", "fuente", "isla"].join(",")
  ];
 
- const lines=[headers.join(",")];
+ for (const p of data.prices) {
+  lines.push(
+   [
+    p.product,
+    p.store,
+    p.price,
+    p.date,
+    p.source,
+    p.island || ""
+   ].map(csvCell).join(",")
+  );
+ }
 
- data.prices.forEach(p=>{
-  lines.push([
-   p.product,p.store,p.price,p.date,p.source
-  ].map(csvCell).join(","));
- });
+ const blob = new Blob(
+  ["\uFEFF" + lines.join("\r\n")],
+  {type: "text/csv;charset=utf-8"}
+ );
 
- const csv="\uFEFF"+lines.join("\r\n");
- const blob=new Blob([csv],{
-  type:"text/csv;charset=utf-8"
- });
+ const url = URL.createObjectURL(blob);
+ const a = document.createElement("a");
 
- const url=URL.createObjectURL(blob);
- const link=document.createElement("a");
- link.href=url;
- link.download="ahorrago-precios.csv";
- document.body.append(link);
- link.click();
- link.remove();
+ a.href = url;
+ a.download = "ahorrago-precios.csv";
 
- setTimeout(()=>URL.revokeObjectURL(url),1000);
+ document.body.append(a);
+ a.click();
+ a.remove();
+
+ setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-$("csvUrl").value=data.csvUrl;
+$("csvUrl").value = data.csvUrl;
 render();
-</script>
 
+</script>
 </body>
 </html>
