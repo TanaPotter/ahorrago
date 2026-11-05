@@ -1,0 +1,1498 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111331">
+<title>AhorraGo 6.4 Galaxia</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ color:#fff;
+ font:16px system-ui,Arial,sans-serif;
+ background:radial-gradient(
+ ellipse at top,#35306b,#111331 45%,#080a20
+ ) fixed;
+}
+header{text-align:center;padding:25px 12px}
+h1{margin:12px 0 0;font-size:2rem}
+header p,.muted{color:#c8c3e3}
+main{max-width:760px;margin:auto;padding:12px}
+.card{
+ background:#1b1d45f2;
+ border:1px solid #514b88;
+ border-radius:22px;
+ padding:18px;
+ margin-bottom:17px;
+}
+h2{font-size:1.2rem;margin:0 0 15px}
+h3{font-size:1rem}
+label{display:block;margin:12px 0 6px}
+input,select,textarea{
+ width:100%;
+ background:#0d102e;
+ color:white;
+ border:1px solid #6d68a1;
+ border-radius:12px;
+ padding:12px;
+ font:inherit;
+}
+input[type=checkbox]{width:auto}
+textarea{min-height:100px}
+button{
+ background:linear-gradient(110deg,#7653dc,#ae69f2);
+ border:0;
+ color:white;
+ padding:13px;
+ border-radius:13px;
+ font:inherit;
+ font-weight:bold;
+ cursor:pointer;
+}
+button:disabled{opacity:.5}
+.wide{width:100%;margin-top:12px}
+.secondary{background:#393d70}
+.danger{background:#813d62}
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+}
+.metric{
+ background:#292b59;
+ padding:15px;
+ border-radius:16px;
+}
+.metric small{display:block;color:#c8c3e3}
+.metric strong{font-size:1.5rem}
+.item{
+ border-top:1px solid #4c497c;
+ padding:13px 0;
+ overflow-wrap:anywhere;
+}
+.muted{font-size:.9rem;line-height:1.5}
+.good{color:#9ff0d4}
+.warn{color:#ffb4c0}
+.datebox{
+ background:#302957;
+ border:1px solid #7466b2;
+ padding:14px;
+ border-radius:14px;
+ overflow-wrap:anywhere;
+}
+.tag{
+ display:inline-block;
+ background:#49377b;
+ padding:6px 10px;
+ border-radius:20px;
+ margin:7px 0;
+}
+progress{width:100%;accent-color:#ae69f2}
+.logo{
+ width:145px;
+ height:145px;
+ margin:auto;
+ display:block;
+ filter:drop-shadow(0 0 18px #9c54ff88);
+}
+a{color:#9feaff}
+footer{
+ text-align:center;
+ color:#bdb7dd;
+ padding:20px;
+}
+@media(max-width:380px){
+ .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+<svg class="logo" viewBox="0 0 200 200"
+ xmlns="http://www.w3.org/2000/svg"
+ aria-label="Logo AhorraGo">
+<defs>
+<linearGradient id="galaxy" x1="0" y1="0"
+ x2="1" y2="1">
+<stop offset="0" stop-color="#311c78"/>
+<stop offset=".5" stop-color="#080b35"/>
+<stop offset="1" stop-color="#7520a0"/>
+</linearGradient>
+<linearGradient id="neon" x1="0" y1="0"
+ x2="1" y2="1">
+<stop offset="0" stop-color="#17dfff"/>
+<stop offset="1" stop-color="#e255ff"/>
+</linearGradient>
+</defs>
+<rect x="4" y="4" width="192" height="192"
+ rx="42" fill="url(#galaxy)"
+ stroke="#bc62ff" stroke-width="6"/>
+<g fill="#fff">
+<circle cx="32" cy="40" r="2"/>
+<circle cx="164" cy="36" r="2"/>
+<circle cx="152" cy="150" r="2"/>
+<circle cx="45" cy="155" r="2"/>
+<circle cx="100" cy="23" r="2"/>
+</g>
+<path d="M20 120 Q100 35 182 90"
+ fill="none" stroke="#8e4bff"
+ stroke-width="5" opacity=".55"/>
+<g stroke="url(#neon)" stroke-width="7"
+ fill="none" stroke-linecap="round"
+ stroke-linejoin="round">
+<path d="M26 61 H47 L63 127 H148 L166 77 H54"/>
+<path d="M68 99 H157"/>
+<path d="M96 79 V126"/>
+<path d="M125 79 V126"/>
+<path d="M69 139 H149"/>
+</g>
+<circle cx="80" cy="150" r="10"
+ fill="#19d8ff"/>
+<circle cx="139" cy="150" r="10"
+ fill="#d75cff"/>
+<circle cx="112" cy="77" r="26"
+ fill="#ffc83d" stroke="#fff1a3"
+ stroke-width="4"/>
+<text x="112" y="89" text-anchor="middle"
+ font-family="Arial" font-size="35"
+ font-weight="bold" fill="#7b4200">€</text>
+<path d="M37 169 Q100 189 169 163"
+ stroke="#d954ff" stroke-width="5"
+ fill="none" stroke-linecap="round"/>
+</svg>
+<h1>AhorraGo 6.4</h1>
+<p>✨ Tu ahorro, en otra galaxia ✨</p>
+</header>
+
+<main>
+
+<section class="card">
+<h2>💰 Presupuesto</h2>
+<label>Presupuesto total (€)</label>
+<input id="budget" type="number"
+ min="0" step=".01">
+<button id="saveBudget" class="wide">
+Guardar presupuesto
+</button>
+<div class="grid" style="margin-top:14px">
+<div class="metric">
+<small>En mi lista</small>
+<strong id="total">0 €</strong>
+</div>
+<div class="metric">
+<small>Disponible</small>
+<strong id="remaining">0 €</strong>
+</div>
+</div>
+<p id="budgetStatus" class="muted"></p>
+<progress id="progress" max="100" value="0">
+</progress>
+</section>
+
+<section class="card">
+<h2>🛒 Mi lista de compra</h2>
+<div id="list"></div>
+<button id="finish" class="wide">
+Finalizar compra y guardar historial
+</button>
+<button id="clear" class="wide secondary">
+Vaciar lista
+</button>
+</section>
+
+<section class="card">
+<h2>➕ Añadir producto manual</h2>
+<label>Nombre del producto</label>
+<input id="manualName"
+ placeholder="Ejemplo: leche">
+<div class="grid">
+<div>
+<label>Precio (€)</label>
+<input id="manualPrice" type="number"
+ min="0" step=".01">
+</div>
+<div>
+<label>Cantidad</label>
+<input id="manualQty" type="number"
+ min="1" step="1" value="1">
+</div>
+</div>
+<label>Supermercado</label>
+<select id="manualStore"></select>
+<button id="addManual" class="wide">
+Añadir a mi lista
+</button>
+</section>
+
+<section class="card">
+<h2>🌐 Fuentes de precios</h2>
+<p class="muted">
+Guarda distintas direcciones de archivos CSV.
+La actualización por Internet solo funcionará
+cuando la dirección sea válida y permita
+consultas desde el navegador.
+</p>
+
+<label>Fuente seleccionada</label>
+<select id="sourceSelect"></select>
+
+<label>Nombre de la fuente</label>
+<input id="sourceName"
+ placeholder="Ejemplo: Datos públicos">
+
+<label>Dirección directa del CSV</label>
+<input id="sourceUrl" type="url"
+ placeholder="https://ejemplo.com/precios.csv">
+
+<button id="saveSource" class="wide">
+💾 Guardar fuente
+</button>
+<button id="newSource" class="wide secondary">
+➕ Crear otra fuente
+</button>
+<button id="deleteSource" class="wide danger">
+Eliminar fuente seleccionada
+</button>
+
+<label>
+<input id="autoEnabled" type="checkbox">
+ Intentar actualizar al abrir
+</label>
+
+<button id="updatePrices" class="wide">
+🔄 Actualizar precios ahora
+</button>
+<p id="updateStatus" class="muted">
+No se ha realizado ninguna consulta.
+</p>
+</section>
+
+<section class="card">
+<h2>📥 Importar precios manualmente</h2>
+<label>Seleccionar archivo CSV</label>
+<input id="csvFile" type="file"
+ accept=".csv,text/csv,text/plain,*/*">
+
+<label>O pegar datos CSV</label>
+<textarea id="csvPaste"
+ placeholder="fecha,producto,nombre,grupo,unidad,cadena,precio_por_unidad_eur"></textarea>
+
+<button id="importPaste" class="wide">
+Importar precios pegados
+</button>
+<p id="csvStatus" class="muted"></p>
+</section>
+
+<section class="card">
+<h2>📅 Estado de los precios</h2>
+<div class="datebox">
+<strong>Última fecha disponible</strong>
+<p id="latestDate" class="good">
+Sin datos cargados
+</p>
+<strong>Última importación</strong>
+<p id="importDate" class="muted">Sin datos</p>
+<strong>Fuente utilizada</strong>
+<p id="priceSource" class="muted">Sin datos</p>
+<strong>Registros guardados</strong>
+<p id="priceCount" class="muted">0</p>
+</div>
+<p class="muted">
+AhorraGo utiliza únicamente los precios
+de la fecha más reciente disponible.
+Los precios pueden ser por kilo, litro
+o unidad y no representar el precio
+de un envase concreto.
+</p>
+</section>
+
+<section class="card">
+<h2>🔭 Comparador de precios</h2>
+<label>Buscar producto</label>
+<input id="search"
+ placeholder="Ejemplo: leche">
+
+<label>Supermercado</label>
+<select id="storeFilter">
+<option value="">Todos</option>
+</select>
+<div id="results"></div>
+</section>
+
+<section class="card">
+<h2>🏆 Comparar mi cesta</h2>
+<p class="muted">
+Solo se muestran cestas completas
+cuando existen precios compatibles
+para todos sus productos.
+</p>
+<button id="compare" class="wide">
+Comparar cesta
+</button>
+<div id="basketResults"></div>
+</section>
+
+<section class="card">
+<h2>📊 Historial de compras</h2>
+<p id="historySummary" class="muted"></p>
+<div id="history"></div>
+<button id="clearHistory"
+ class="wide secondary">
+Borrar historial
+</button>
+</section>
+
+<section class="card">
+<h2>💎 AhorraGo Premium</h2>
+<p class="muted">
+Próximamente: informes avanzados
+y herramientas adicionales.
+</p>
+<button class="wide secondary" disabled>
+Premium próximamente
+</button>
+</section>
+
+</main>
+
+<footer>AhorraGo 6.4 Galaxia 🌌</footer>
+
+<script>
+"use strict";
+
+const $=id=>document.getElementById(id);
+
+const STORES=[
+ "Mercadona","HiperDino","Lidl",
+ "SPAR","DIA","Consum","BonÀrea"
+];
+
+const KEY="ahorrago_v1";
+const PRICEKEY="ahorrago_galaxia_prices";
+const HISTORYKEY="ahorrago_galaxia_history";
+const SOURCEKEY="ahorrago64_sources";
+const SETTINGSKEY="ahorrago64_settings";
+
+const money=n=>Number(n).toLocaleString(
+ "es-ES",
+ {style:"currency",currency:"EUR"}
+);
+
+const norm=s=>String(s??"")
+ .normalize("NFD")
+ .replace(/[\u0300-\u036f]/g,"")
+ .toLowerCase().trim();
+
+function numeric(v){
+ let s=String(v??"").replace(/[€\s]/g,"");
+ if(s.includes(",")&&s.includes(".")){
+  s=s.lastIndexOf(",")>s.lastIndexOf(".")
+   ?s.replace(/\./g,"").replace(",",".")
+   :s.replace(/,/g,"");
+ }else{
+  s=s.replace(",",".");
+ }
+ return /^\d+(\.\d+)?$/.test(s)
+  ?Number(s):NaN;
+}
+
+function read(k,d){
+ try{
+  return JSON.parse(localStorage.getItem(k))??d;
+ }catch{
+  return d;
+ }
+}
+
+function write(k,v){
+ try{
+  localStorage.setItem(k,JSON.stringify(v));
+  return true;
+ }catch{
+  alert("No se pudo guardar.");
+  return false;
+ }
+}
+
+function make(tag,value,cls){
+ const e=document.createElement(tag);
+ if(value!==undefined)e.textContent=value;
+ if(cls)e.className=cls;
+ return e;
+}
+
+let data=read(KEY,{
+ budget:0,
+ products:[]
+});
+
+if(!data||typeof data!=="object"){
+ data={budget:0,products:[]};
+}
+
+data.budget=Number(data.budget)||0;
+if(!Array.isArray(data.products)){
+ data.products=[];
+}
+
+let saved=read(PRICEKEY,{});
+let catalog=Array.isArray(saved.rows)
+ ?saved.rows:[];
+let importedAt=saved.importedAt||"";
+let catalogSource=saved.source||"";
+
+let history=read(HISTORYKEY,[]);
+if(!Array.isArray(history))history=[];
+
+let sources=read(SOURCEKEY,[]);
+if(!Array.isArray(sources))sources=[];
+
+let settings=read(SETTINGSKEY,{
+ selected:"",
+ auto:false
+});
+
+if(!settings||typeof settings!=="object"){
+ settings={selected:"",auto:false};
+}
+
+/* FECHAS */
+
+function dateValue(s){
+ const t=String(s||"").trim();
+ let result="";
+
+ if(/^\d{4}-\d{2}-\d{2}$/.test(t)){
+  result=t;
+ }else{
+  const m=t.match(
+   /^(\d{2})\/(\d{2})\/(\d{4})$/
+  );
+
+  if(m){
+   result=m[3]+"-"+m[2]+"-"+m[1];
+  }
+ }
+
+ if(!result)return "";
+
+ const d=new Date(result+"T12:00:00");
+
+ if(isNaN(d)||
+ d.getFullYear()!==Number(result.slice(0,4))||
+ d.getMonth()+1!==Number(result.slice(5,7))||
+ d.getDate()!==Number(result.slice(8,10))){
+  return "";
+ }
+
+ return result;
+}
+
+function formatDate(iso){
+ if(!iso)return "Fecha desconocida";
+ const a=iso.split("-");
+ return a[2]+"/"+a[1]+"/"+a[0];
+}
+
+function latestDateValue(rows){
+ let latest="";
+ for(const p of rows){
+  const d=dateValue(p.date);
+  if(d>latest)latest=d;
+ }
+ return latest;
+}
+
+function currentPrices(){
+ const latest=latestDateValue(catalog);
+ if(!latest)return [];
+ return catalog.filter(p=>
+  dateValue(p.date)===latest
+ );
+}
+
+function showPriceInfo(){
+ const latest=latestDateValue(catalog);
+
+ $("latestDate").textContent=latest
+  ?formatDate(latest)
+  :"Sin datos cargados";
+
+ $("importDate").textContent=
+  importedAt||"Sin datos";
+
+ $("priceSource").textContent=
+  catalogSource||"Sin datos";
+
+ $("priceCount").textContent=
+  String(catalog.length);
+
+ $("csvStatus").textContent=catalog.length
+  ?"Hay "+currentPrices().length+
+   " precios de la fecha más reciente."
+  :"No hay precios importados.";
+}
+
+/* PRESUPUESTO Y LISTA */
+
+const lineTotal=p=>
+ (Number(p.quantity)||1)*
+ (Number(p.price)||0);
+
+const listTotal=()=>
+ data.products.reduce(
+  (s,p)=>s+lineTotal(p),0
+ );
+
+function renderList(){
+ const root=$("list");
+ root.replaceChildren();
+
+ data.products.forEach((p,i)=>{
+  const div=make("div",undefined,"item");
+
+  const title=make(
+   "strong",
+   (p.name||"Producto")+
+   " · "+(p.store||"Sin tienda")
+  );
+
+  const desc=make(
+   "p",
+   (Number(p.quantity)||1)+" × "+
+   money(p.price)+" = "+
+   money(lineTotal(p))+
+   (p.unit?" · "+p.unit:""),
+   "muted"
+  );
+
+  const btn=make(
+   "button","Quitar uno","secondary"
+  );
+
+  btn.onclick=()=>{
+   if((Number(p.quantity)||1)>1){
+    p.quantity=Number(p.quantity)-1;
+   }else{
+    data.products.splice(i,1);
+   }
+   write(KEY,data);
+   renderList();
+  };
+
+  div.append(title,desc,btn);
+  root.append(div);
+ });
+
+ if(!data.products.length){
+  root.textContent="Tu lista está vacía.";
+ }
+
+ const total=listTotal();
+ const remaining=data.budget-total;
+
+ $("budget").value=data.budget;
+ $("total").textContent=money(total);
+ $("remaining").textContent=money(remaining);
+ $("remaining").className=
+  remaining<0?"warn":"good";
+
+ $("budgetStatus").textContent=
+  remaining<0
+   ?"⚠️ Has superado el presupuesto."
+   :"Disponible después de añadir productos.";
+
+ $("progress").value=data.budget>0
+  ?Math.min(100,total/data.budget*100)
+  :0;
+
+ $("finish").disabled=!data.products.length;
+ $("basketResults").replaceChildren();
+}
+
+function add(name,store,price,qty=1,
+ unit="",product=""){
+
+ name=String(name||"").trim();
+
+ if(!name||
+ !Number.isFinite(price)||
+ price<0||
+ !Number.isInteger(qty)||
+ qty<1){
+  alert("Revisa nombre, precio y cantidad.");
+  return false;
+ }
+
+ const old=data.products.find(p=>
+  p.name===name&&
+  p.store===store&&
+  Number(p.price)===price&&
+  String(p.unit||"")===unit
+ );
+
+ if(old){
+  old.quantity=
+   (Number(old.quantity)||1)+qty;
+ }else{
+  data.products.push({
+   name,store,price,
+   quantity:qty,unit,product
+  });
+ }
+
+ write(KEY,data);
+ renderList();
+ return true;
+}
+
+for(const s of STORES){
+ for(const id of [
+  "manualStore","storeFilter"
+ ]){
+  const option=make("option",s);
+  option.value=s;
+  $(id).append(option);
+ }
+}
+
+$("saveBudget").onclick=()=>{
+ const n=numeric($("budget").value);
+
+ if(!Number.isFinite(n)||n<0){
+  alert("Presupuesto no válido.");
+  return;
+ }
+
+ data.budget=n;
+ write(KEY,data);
+ renderList();
+};
+
+$("addManual").onclick=()=>{
+ const ok=add(
+  $("manualName").value,
+  $("manualStore").value,
+  numeric($("manualPrice").value),
+  Number($("manualQty").value)
+ );
+
+ if(ok)$("manualName").value="";
+};
+
+$("clear").onclick=()=>{
+ if(confirm("¿Vaciar la lista?")){
+  data.products=[];
+  write(KEY,data);
+  renderList();
+ }
+};
+
+/* HISTORIAL */
+
+function renderHistory(){
+ const root=$("history");
+ root.replaceChildren();
+
+ const sum=history.reduce(
+  (s,x)=>s+(Number(x.total)||0),0
+ );
+
+ $("historySummary").textContent=
+  history.length+
+  " compras · Total: "+money(sum);
+
+ if(!history.length){
+  root.textContent="Sin compras registradas.";
+  return;
+ }
+
+ history.slice().reverse().forEach(x=>{
+  const div=make("div",undefined,"item");
+
+  const strong=make(
+   "strong",
+   (x.date||"Sin fecha")+
+   " · "+money(x.total||0)
+  );
+
+  const p=make(
+   "p",
+   (x.products||[])
+    .map(z=>z.name+" ("+z.store+")")
+    .join(", "),
+   "muted"
+  );
+
+  div.append(strong,p);
+  root.append(div);
+ });
+}
+
+$("finish").onclick=()=>{
+ if(!data.products.length||
+ !confirm(
+  "¿Guardar esta compra y vaciar la lista?"
+  )){
+  return;
+ }
+
+ const entry={
+  date:new Date().toLocaleString("es-ES"),
+  total:listTotal(),
+  budget:data.budget,
+  products:JSON.parse(
+   JSON.stringify(data.products)
+  )
+ };
+
+ history.push(entry);
+
+ if(!write(HISTORYKEY,history)){
+  history.pop();
+  return;
+ }
+
+ data.products=[];
+ write(KEY,data);
+ renderList();
+ renderHistory();
+};
+
+$("clearHistory").onclick=()=>{
+ if(confirm("¿Borrar el historial?")){
+  history=[];
+  write(HISTORYKEY,history);
+  renderHistory();
+ }
+};
+
+/* FUENTES DE PRECIOS */
+
+function renderSources(){
+ const select=$("sourceSelect");
+ select.replaceChildren();
+
+ const blank=make(
+  "option","Selecciona una fuente"
+ );
+ blank.value="";
+ select.append(blank);
+
+ sources.forEach(s=>{
+  const option=make("option",s.name);
+  option.value=s.id;
+  select.append(option);
+ });
+
+ if(!sources.some(s=>
+  s.id===settings.selected
+  )){
+  settings.selected="";
+ }
+
+ select.value=settings.selected;
+
+ const current=sources.find(s=>
+  s.id===settings.selected
+ );
+
+ $("sourceName").value=current
+  ?current.name:"";
+
+ $("sourceUrl").value=current
+  ?current.url:"";
+
+ $("autoEnabled").checked=!!settings.auto;
+}
+
+$("sourceSelect").onchange=()=>{
+ settings.selected=$("sourceSelect").value;
+ write(SETTINGSKEY,settings);
+ renderSources();
+};
+
+$("newSource").onclick=()=>{
+ settings.selected="";
+ write(SETTINGSKEY,settings);
+ renderSources();
+ $("sourceName").focus();
+};
+
+$("saveSource").onclick=()=>{
+ const name=$("sourceName").value.trim();
+ const url=$("sourceUrl").value.trim();
+
+ if(!name||!url){
+  alert("Escribe el nombre y la dirección.");
+  return;
+ }
+
+ try{
+  const u=new URL(url);
+  if(!["https:","http:"].includes(
+   u.protocol
+  )){
+   throw Error();
+  }
+ }catch{
+  alert("La dirección no es válida.");
+  return;
+ }
+
+ let current=sources.find(s=>
+  s.id===settings.selected
+ );
+
+ if(current){
+  current.name=name;
+  current.url=url;
+ }else{
+  const id="fuente_"+Date.now()+
+   "_"+Math.floor(Math.random()*100000);
+
+  sources.push({id,name,url});
+  settings.selected=id;
+ }
+
+ write(SOURCEKEY,sources);
+ write(SETTINGSKEY,settings);
+ renderSources();
+
+ $("updateStatus").textContent=
+  "✅ Fuente guardada. Todavía no se "+
+  "ha comprobado la conexión.";
+};
+
+$("deleteSource").onclick=()=>{
+ if(!settings.selected)return;
+
+ if(!confirm(
+  "¿Eliminar la fuente seleccionada?"
+  ))return;
+
+ sources=sources.filter(s=>
+  s.id!==settings.selected
+ );
+
+ settings.selected="";
+ write(SOURCEKEY,sources);
+ write(SETTINGSKEY,settings);
+ renderSources();
+};
+
+$("autoEnabled").onchange=()=>{
+ settings.auto=$("autoEnabled").checked;
+ write(SETTINGSKEY,settings);
+};
+
+/* CSV */
+
+function parseCSV(text){
+ text=String(text).replace(/^\uFEFF/,"");
+
+ const first=text.split(/\r?\n/)[0]||"";
+
+ const sep=["\t",";",","].sort(
+  (a,b)=>
+   first.split(b).length-
+   first.split(a).length
+ )[0];
+
+ const rows=[];
+ let row=[];
+ let field="";
+ let quoted=false;
+
+ for(let i=0;i<text.length;i++){
+  const c=text[i];
+
+  if(c==='"'){
+   if(quoted&&text[i+1]==='"'){
+    field+='"';
+    i++;
+   }else{
+    quoted=!quoted;
+   }
+  }else if(c===sep&&!quoted){
+   row.push(field);
+   field="";
+  }else if(
+   (c==="\r"||c==="\n")&&!quoted
+  ){
+   if(c==="\r"&&text[i+1]==="\n"){
+    i++;
+   }
+
+   row.push(field);
+
+   if(row.some(v=>v.trim())){
+    rows.push(row);
+   }
+
+   row=[];
+   field="";
+  }else{
+   field+=c;
+  }
+ }
+
+ if(quoted){
+  throw Error("El CSV tiene comillas sin cerrar.");
+ }
+
+ row.push(field);
+
+ if(row.some(v=>v.trim())){
+  rows.push(row);
+ }
+
+ return rows;
+}
+
+function storeName(s){
+ const n=norm(s).replace(/[\s-]/g,"");
+
+ if(n==="sparcanarias")return "SPAR";
+
+ return STORES.find(x=>
+  norm(x).replace(/[\s-]/g,"")===n
+ )||null;
+}
+
+function convert(text){
+ const rows=parseCSV(text);
+
+ if(rows.length<2){
+  throw Error("No hay filas de productos.");
+ }
+
+ const h=rows[0].map(norm);
+ const col=(...a)=>
+  h.findIndex(x=>a.includes(x));
+
+ const ni=col("nombre","producto");
+ const ci=col(
+  "cadena","supermercado","tienda"
+ );
+ const pi=col(
+  "precio_por_unidad_eur",
+  "precio","precio_eur"
+ );
+ const di=col("fecha");
+ const ui=col("unidad");
+ const ki=col("producto");
+
+ if(ni<0||ci<0||pi<0||di<0){
+  throw Error(
+   "Faltan columnas del CSV, incluida fecha."
+  );
+ }
+
+ const map=new Map();
+
+ for(const r of rows.slice(1)){
+  const store=storeName(r[ci]);
+  const price=numeric(r[pi]);
+  const name=String(r[ni]||"").trim();
+  const date=String(r[di]||"").trim();
+
+  if(!store||
+  !Number.isFinite(price)||
+  price<0||
+  !name||
+  !dateValue(date)){
+   continue;
+  }
+
+  const p={
+   name,store,price,date,
+   unit:ui>=0
+    ?String(r[ui]||""):"",
+   product:ki>=0
+    ?String(r[ki]||""):""
+  };
+
+  const key=
+   norm(p.product||p.name)+"|"+
+   norm(p.unit)+"|"+
+   p.store+"|"+
+   dateValue(p.date);
+
+  map.set(key,p);
+ }
+
+ const out=[...map.values()];
+
+ if(!out.length){
+  throw Error(
+   "No se encontraron precios válidos."
+  );
+ }
+
+ return out;
+}
+
+function applyCatalog(rows,source){
+ const time=new Date().toLocaleString(
+  "es-ES"
+ );
+
+ if(!write(PRICEKEY,{
+  rows,importedAt:time,source
+ })){
+  throw Error(
+   "No se pudieron guardar los precios."
+  );
+ }
+
+ catalog=rows;
+ importedAt=time;
+ catalogSource=source;
+
+ showPriceInfo();
+ renderPrices();
+ $("basketResults").replaceChildren();
+}
+
+function importText(text){
+ const rows=convert(text);
+ applyCatalog(rows,"CSV importado manualmente");
+
+ alert(
+  "Importados "+rows.length+" registros.\n"+
+  "Última fecha: "+
+  formatDate(latestDateValue(rows))
+ );
+}
+
+$("importPaste").onclick=()=>{
+ try{
+  importText($("csvPaste").value);
+ }catch(e){
+  $("csvStatus").textContent=
+   "Error: "+e.message;
+ }
+};
+
+$("csvFile").onchange=async e=>{
+ const file=e.target.files[0];
+
+ if(!file)return;
+
+ try{
+  importText(await file.text());
+ }catch(err){
+  $("csvStatus").textContent=
+   "Error: "+err.message;
+ }
+
+ e.target.value="";
+};
+
+/* ACTUALIZACIÓN POR INTERNET */
+
+let updating=false;
+
+async function updateOnline(){
+ if(updating)return;
+
+ const current=sources.find(s=>
+  s.id===settings.selected
+ );
+
+ if(!current){
+  $("updateStatus").textContent=
+   "⚠️ Primero guarda y selecciona "+
+   "una fuente de precios.";
+  return;
+ }
+
+ updating=true;
+ $("updatePrices").disabled=true;
+ $("updateStatus").textContent=
+  "🔄 Consultando "+current.name+"...";
+
+ const controller=new AbortController();
+ const timeout=setTimeout(
+  ()=>controller.abort(),20000
+ );
+
+ try{
+  const response=await fetch(current.url,{
+   method:"GET",
+   cache:"no-store",
+   signal:controller.signal
+  });
+
+  if(!response.ok){
+   throw Error(
+    "Servidor HTTP "+response.status
+   );
+  }
+
+  const length=Number(
+   response.headers.get("content-length")
+  );
+
+  if(length>12000000){
+   throw Error("El archivo es demasiado grande.");
+  }
+
+  const text=await response.text();
+
+  if(text.length>12000000){
+   throw Error("El CSV es demasiado grande.");
+  }
+
+  const rows=convert(text);
+  const incoming=latestDateValue(rows);
+  const previous=latestDateValue(catalog);
+
+  if(previous&&incoming<previous){
+   throw Error(
+    "La fuente tiene precios anteriores "+
+    "a los guardados."
+   );
+  }
+
+  applyCatalog(rows,current.name);
+
+  $("updateStatus").textContent=
+   "✅ Actualización completada. "+
+   rows.length+" registros. "+
+   "Fecha: "+formatDate(incoming);
+
+ }catch(err){
+  const reason=err.name==="AbortError"
+   ?"La consulta tardó demasiado."
+   :err.message;
+
+  $("updateStatus").textContent=
+   "❌ No se pudo actualizar: "+
+   reason+
+   ". Comprueba la dirección, Internet "+
+   "y los permisos CORS. "+
+   "Se conservan los precios anteriores.";
+ }finally{
+  clearTimeout(timeout);
+  updating=false;
+  $("updatePrices").disabled=false;
+ }
+}
+
+$("updatePrices").onclick=updateOnline;
+
+/* BUSCADOR DE PRECIOS */
+
+function renderPrices(){
+ const root=$("results");
+ root.replaceChildren();
+
+ const prices=currentPrices();
+
+ if(!prices.length){
+  root.textContent=
+   "No hay precios con fecha válida.";
+  return;
+ }
+
+ const q=norm($("search").value);
+ const filter=$("storeFilter").value;
+
+ if(!q){
+  root.textContent=
+   "Escribe un producto para buscar.";
+  return;
+ }
+
+ const matches=prices.filter(p=>
+  (
+   norm(p.name).includes(q)||
+   norm(p.product).includes(q)
+  )&&
+  (!filter||p.store===filter)
+ );
+
+ if(!matches.length){
+  root.textContent=
+   "No hay precios de la última fecha "+
+   "para esta búsqueda.";
+  return;
+ }
+
+ const groups=new Map();
+
+ for(const p of matches){
+  const key=
+   norm(p.product||p.name)+"|"+
+   norm(p.unit);
+
+  if(!groups.has(key)){
+   groups.set(key,[]);
+  }
+
+  groups.get(key).push(p);
+ }
+
+ let count=0;
+
+ for(const group of groups.values()){
+  if(count++>=25)break;
+
+  const products=group.slice().sort(
+   (a,b)=>a.price-b.price
+  );
+
+  const title=make(
+   "h3",
+   products[0].name+" · "+
+   (products[0].unit||"unidad")
+  );
+
+  root.append(title);
+
+  for(const p of products){
+   const div=make("div",undefined,"item");
+
+   const strong=make(
+    "strong",
+    p.store+" · "+money(p.price)+
+    (p.unit?" / "+p.unit:"")
+   );
+
+   const date=make(
+    "p",
+    "Fecha del precio: "+
+    formatDate(dateValue(p.date)),
+    "muted"
+   );
+
+   div.append(strong,date);
+
+   if(products.length>1&&
+   p.price===products[0].price){
+    const tag=make(
+     "div",
+     "🏆 Precio más bajo de esta fecha",
+     "tag"
+    );
+    div.append(tag);
+   }
+
+   const btn=make(
+    "button",
+    "Añadir a mi lista",
+    "wide"
+   );
+
+   btn.onclick=()=>{
+    const unit=p.unit||"unidad";
+
+    if(confirm(
+     "Precio: "+money(p.price)+
+     " por "+unit+
+     ". ¿Añadir 1 "+unit+" a tu lista?"
+    )){
+     add(
+      p.name,p.store,p.price,
+      1,unit,p.product
+     );
+    }
+   };
+
+   div.append(btn);
+   root.append(div);
+  }
+ }
+
+ const note=make(
+  "p",
+  "Precios de "+
+  formatDate(latestDateValue(catalog))+
+  ". Son precios orientativos por "+
+  "unidad, kg o litro y pueden "+
+  "diferir del precio de un envase.",
+  "muted"
+ );
+
+ root.append(note);
+}
+
+$("search").oninput=renderPrices;
+$("storeFilter").onchange=renderPrices;
+
+/* COMPARADOR DE CESTA */
+
+function compareBasket(){
+ const root=$("basketResults");
+ root.replaceChildren();
+
+ if(!data.products.length){
+  root.textContent=
+   "Añade productos a tu lista primero.";
+  return;
+ }
+
+ const prices=currentPrices();
+
+ if(!prices.length){
+  root.textContent=
+   "No hay precios de la última fecha.";
+  return;
+ }
+
+ const wanted=new Map();
+
+ for(const p of data.products){
+  const unit=norm(p.unit);
+  const key=
+   norm(p.product||p.name)+"|"+unit;
+
+  if(!unit){
+   const msg=make(
+    "p",
+    "No se puede comparar toda la cesta: "+
+    p.name+" no tiene unidad. "+
+    "Añádelo desde el comparador CSV.",
+    "warn"
+   );
+   root.append(msg);
+   return;
+  }
+
+  wanted.set(
+   key,
+   (wanted.get(key)||0)+
+   (Number(p.quantity)||1)
+  );
+ }
+
+ const byStore=new Map();
+
+ for(const p of prices){
+  const key=
+   norm(p.product||p.name)+"|"+
+   norm(p.unit);
+
+  if(!wanted.has(key))continue;
+
+  const by=byStore.get(p.store)||
+   new Map();
+
+  by.set(key,p);
+  byStore.set(p.store,by);
+ }
+
+ const rows=STORES.map(store=>{
+  const by=byStore.get(store)||
+   new Map();
+
+  const matched=[...wanted].filter(
+   ([key])=>by.has(key)
+  );
+
+  const total=matched.reduce(
+   (s,[key,qty])=>
+    s+by.get(key).price*qty,0
+  );
+
+  return{
+   store,
+   matched:matched.length,
+   total,
+   complete:matched.length===wanted.size
+  };
+ });
+
+ const complete=rows.filter(r=>r.complete)
+  .sort((a,b)=>a.total-b.total);
+
+ const heading=make(
+  "p",
+  "Fecha: "+
+  formatDate(latestDateValue(catalog))+
+  " · Productos: "+wanted.size,
+  "muted"
+ );
+
+ root.append(heading);
+
+ for(const r of rows){
+  const div=make("div",undefined,"item");
+
+  const strong=make(
+   "strong",
+   r.store+" · "+
+   (r.complete
+    ?money(r.total)
+    :"Cesta incompleta")
+  );
+
+  const detail=make(
+   "p",
+   r.matched+
+   " de "+wanted.size+
+   " productos con precio",
+   "muted"
+  );
+
+  div.append(strong,detail);
+
+  if(r.complete&&complete.length&&
+  r.store===complete[0].store){
+   const badge=make(
+    "p",
+    "🏆 Cesta más barata de esta fecha",
+    "good"
+   );
+   div.append(badge);
+  }
+
+  root.append(div);
+ }
+
+ if(complete.length>1){
+  const saving=make(
+   "p",
+   "Diferencia entre cestas completas: "+
+   money(
+    complete[complete.length-1].total-
+    complete[0].total
+   ),
+   "good"
+  );
+  root.append(saving);
+ }
+
+ if(!complete.length){
+  const note=make(
+   "p",
+   "Ningún supermercado tiene todos "+
+   "los productos en la última fecha.",
+   "warn"
+  );
+  root.append(note);
+ }
+}
+
+$("compare").onclick=compareBasket;
+
+/* INICIO */
+
+renderList();
+renderHistory();
+renderSources();
+showPriceInfo();
+renderPrices();
+
+if(settings.auto&&settings.selected){
+ updateOnline();
+}
+
+</script>
+</body>
+</html>
